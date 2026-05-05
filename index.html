@@ -1,1 +1,677 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anti-Scam TikTok-Style Demo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #101820;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .phone {
+      width: 390px;
+      height: 790px;
+      background: linear-gradient(180deg, #fbfdff 0%, #eef9fc 100%);
+      border-radius: 36px;
+      overflow: hidden;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .demo-banner {
+      position: absolute;
+      top: 151px;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      background: #dc2626;
+      color: white;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 5px 8px;
+      letter-spacing: .4px;
+    }
+
+    .status {
+      height: 36px;
+      padding: 10px 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      color: #111827;
+      background: #ffffff;
+    }
+
+    .icons {
+      letter-spacing: 2px;
+      font-size: 12px;
+      color: #111827;
+    }
+
+    .browser {
+      height: 40px;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #4b5563;
+      font-size: 14px;
+    }
+
+    .lock {
+      font-size: 12px;
+    }
+
+    .chat-header {
+      height: 76px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      border-bottom: 1px solid #e5e7eb;
+      gap: 12px;
+    }
+
+    .back {
+      font-size: 28px;
+      color: #4b5563;
+      line-height: 1;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #050505;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 20px;
+      position: relative;
+    }
+
+    .avatar::before {
+      content: "♪";
+      color: #25f4ee;
+      text-shadow: 2px 2px 0 #fe2c55;
+      font-size: 25px;
+    }
+
+    .head-text {
+      flex: 1;
+    }
+
+    .name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .verified {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4fc3ee;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .sub {
+      color: #6b7280;
+      font-size: 14px;
+      margin-top: 2px;
+    }
+
+    .header-icons {
+      font-size: 22px;
+      color: #4b5563;
+      display: flex;
+      gap: 14px;
+    }
+
+    .chat {
+      flex: 1;
+      padding: 28px 18px 12px;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    .date {
+      margin: 0 auto 18px;
+      width: max-content;
+      background: #eef0f4;
+      color: #6b7280;
+      padding: 8px 15px;
+      border-radius: 999px;
+      font-size: 14px;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      margin-bottom: 13px;
+    }
+
+    .row.user-row {
+      justify-content: flex-end;
+    }
+
+    .mini-avatar {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: #050505;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 17px;
+      position: relative;
+    }
+
+    .mini-avatar::before {
+      content: "♪";
+      color: #25f4ee;
+      text-shadow: 1.5px 1.5px 0 #fe2c55;
+      font-size: 20px;
+    }
+
+    .bubble {
+      background: #ffffff;
+      color: #374151;
+      padding: 17px 18px;
+      border-radius: 18px;
+      line-height: 1.55;
+      font-size: 18px;
+      max-width: 285px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .small-bubble {
+      font-size: 17px;
+      padding: 12px 17px;
+      border-radius: 14px;
+    }
+
+    .pink-text {
+      color: #a33b68;
+      font-weight: 700;
+    }
+
+    .user-bubble {
+      background: #31c1e7;
+      color: #164152;
+      font-weight: 500;
+      border-radius: 14px;
+      padding: 15px 25px;
+      font-size: 19px;
+    }
+
+    .tip {
+      max-width: 310px;
+      background: #e9eef1;
+      color: #4b5563;
+      border-radius: 17px;
+      padding: 15px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      box-shadow: none;
+    }
+
+    .tip-icon {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #25f4ee, #050505, #fe2c55);
+    }
+
+    .tip-title {
+      color: #a33b68;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.6px;
+    }
+
+    .tip-body {
+      font-size: 14px;
+      line-height: 1.25;
+      margin-top: 2px;
+    }
+
+    .age-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 22px 0 16px;
+    }
+
+    .age-options button {
+      background: transparent;
+      border: 2px solid #43bfe7;
+      border-radius: 24px;
+      height: 62px;
+      color: #334155;
+      font-size: 19px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .age-options button:hover,
+    .offer-card:hover,
+    .start-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .offers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin: 14px 0 18px;
+    }
+
+    .offer-card {
+      position: relative;
+      background: #ffffff;
+      border: 3px solid #8b4ba8;
+      border-radius: 18px;
+      padding: 34px 15px 18px;
+      min-height: 210px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    .offer-badge {
+      position: absolute;
+      top: -14px;
+      left: 18px;
+      right: 18px;
+      background: linear-gradient(90deg, #37aeea, #6c2bd9);
+      color: #ffffff;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 6px 5px;
+      border-radius: 999px;
+    }
+
+    .offer-card:nth-child(2) .offer-badge {
+      background: linear-gradient(90deg, #f59e0b, #c2410c);
+    }
+
+    .offer-card h3 {
+      margin: 4px 0 10px;
+      color: #374151;
+      font-size: 22px;
+    }
+
+    .offer-card .money {
+      color: #8b2f61;
+      font-size: 25px;
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 9px;
+    }
+
+    .offer-card .main {
+      color: #4b5563;
+      font-size: 16px;
+      line-height: 1.3;
+      margin-bottom: 14px;
+    }
+
+    .offer-card .methods {
+      color: #7c8593;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .final-card {
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 30px 22px 28px;
+      text-align: center;
+      max-width: 320px;
+      box-shadow: 0 3px 16px rgba(0, 0, 0, 0.07);
+    }
+
+    .check {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #62b866;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      font-weight: 800;
+      margin: 0 auto 18px;
+      box-shadow: 0 0 0 10px rgba(98, 184, 102, 0.17);
+    }
+
+    .final-card h2 {
+      font-size: 27px;
+      margin: 0 0 14px;
+      color: #2f3640;
+    }
+
+    .final-card p {
+      margin: 0;
+      color: #5b6470;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .final-card .safe-line {
+      margin: 12px 0 0;
+      font-size: 13px;
+      color: #dc2626;
+      font-weight: 700;
+    }
+
+    .start-btn {
+      width: 100%;
+      margin-top: 24px;
+      border: none;
+      border-radius: 999px;
+      background: #c92f64;
+      color: #ffffff;
+      font-size: 19px;
+      font-weight: 800;
+      padding: 18px 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .bottom-input {
+      height: 70px;
+      padding: 12px 17px;
+      background: rgba(227, 244, 248, 0.9);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      border-top: 1px solid rgba(204, 223, 228, 0.8);
+    }
+
+    .input-pill {
+      flex: 1;
+      height: 44px;
+      border-radius: 999px;
+      background: #dce9ee;
+      color: #8a97a5;
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      font-size: 16px;
+    }
+
+    .send {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #b8d3dd;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .warning-page {
+      position: absolute;
+      inset: 0;
+      background: #0f172a;
+      color: white;
+      z-index: 99;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .warning-box {
+      background: #111827;
+      border: 2px solid #ef4444;
+      border-radius: 24px;
+      padding: 28px 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+
+    .warning-box h1 {
+      color: #fca5a5;
+      margin: 0 0 14px;
+      font-size: 28px;
+    }
+
+    .warning-box p {
+      color: #d1d5db;
+      line-height: 1.45;
+      font-size: 17px;
+    }
+
+    .warning-box button {
+      margin-top: 18px;
+      border: none;
+      border-radius: 999px;
+      background: #ef4444;
+      color: white;
+      padding: 14px 22px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    @media (max-width: 430px) {
+      body { align-items: stretch; }
+      .phone {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+      }
+      .demo-banner { top: 151px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <div class="status">
+      <div>03:44</div>
+      <div class="icons">••• ))) ▭</div>
+    </div>
+
+    <div class="browser">
+      <span class="lock">🔒</span>
+      <span>trytesterup-demo.local</span>
+    </div>
+
+    <div class="chat-header">
+      <div class="back">‹</div>
+      <div class="avatar"></div>
+      <div class="head-text">
+        <div class="name">TikTok Business <span class="verified">✓</span></div>
+        <div class="sub">Business chat</div>
+      </div>
+      <div class="header-icons"><span>⚐</span><span>⋯</span></div>
+    </div>
+
+    <div class="demo-banner">ANTI-SCAM EDUCATIONAL DEMO — NOT AFFILIATED WITH TIKTOK</div>
+
+    <section class="chat" id="chat">
+      <div class="date">Today 3:44 AM</div>
+
+      <div class="row">
+        <div class="mini-avatar"></div>
+        <div class="bubble">
+          Hello 👋<br><br>
+          TikTok is inviting a small group of users to test new apps & games from home.<br><br>
+          You can earn up to <b>€3,500 per week</b> by completing simple tasks and sharing feedback.
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="mini-avatar"></div>
+        <div class="bubble small-bubble pink-text">Let's get started!</div>
+      </div>
+
+      <div class="row">
+        <div class="mini-avatar"></div>
+        <div class="bubble small-bubble">How old are you?</div>
+      </div>
+
+      <div class="row" id="tipRow">
+        <div style="width:36px"></div>
+        <div class="tip">
+          <div class="tip-icon"></div>
+          <div>
+            <div class="tip-title">HELPER TIP</div>
+            <div class="tip-body">Select your age range from the options below.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="age-options" id="ageOptions">
+        <button onclick="chooseAge('18–20')">18–20</button>
+        <button onclick="chooseAge('21–34')">21–34</button>
+        <button onclick="chooseAge('35–44')">35–44</button>
+        <button onclick="chooseAge('45+')">45+</button>
+      </div>
+
+      <div id="offerBlock" class="hidden">
+        <div class="row">
+          <div class="mini-avatar"></div>
+          <div class="bubble">
+            Congratulations! 🎉<br><br>
+            Based on your answers, you qualify for one of the available testing offers below.
+          </div>
+        </div>
+
+        <div class="offers">
+          <div class="offer-card" onclick="chooseOffer('€3,500 / week')">
+            <div class="offer-badge">BEST VALUE</div>
+            <h3>Offer 1</h3>
+            <div class="money">€3,500<br>per week</div>
+            <div class="main">Test apps, play games and complete simple feedback tasks.</div>
+            <div class="methods">PayPal, Bank Transfer, Gift Card, Visa</div>
+          </div>
+
+          <div class="offer-card" onclick="chooseOffer('€2,500 / week')">
+            <div class="offer-badge">POPULAR</div>
+            <h3>Offer 2</h3>
+            <div class="money">€2,500<br>per week</div>
+            <div class="main">Try sponsored mobile games and unlock reward tasks.</div>
+            <div class="methods">Apple Pay, PayPal, Cash App</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="finalBlock" class="hidden">
+        <div class="row">
+          <div class="mini-avatar"></div>
+          <div class="final-card">
+            <div class="check">✓</div>
+            <h2>Congratulations!</h2>
+            <p>You have been selected. Tap the button below to continue.</p>
+            <p class="safe-line">Demo red flag: fake brand + unrealistic money promise.</p>
+            <button class="start-btn" onclick="goNext()">Get Started Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bottom-input">
+      <div class="input-pill" id="footerText">Please select from the options above</div>
+      <div class="send">➤</div>
+    </div>
+
+    <div class="warning-page" id="warningPage">
+      <div class="warning-box">
+        <h1>⚠️ Scam Red Flags</h1>
+        <p>This page is an educational anti-scam demo. Real scam funnels often impersonate trusted brands, promise unrealistic weekly earnings, ask for age/eligibility, then push users to a redirect button.</p>
+        <p><b>Never enter personal data or payment details on pages like this.</b></p>
+        <button onclick="closeWarning()">Back to demo</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const footerText = document.getElementById('footerText');
+
+    function bottom() {
+      setTimeout(() => {
+        chat.scrollTop = chat.scrollHeight;
+      }, 50);
+    }
+
+    function addUser(text) {
+      chat.insertAdjacentHTML('beforeend', `
+        <div class="row user-row">
+          <div class="user-bubble">${text}</div>
+        </div>
+      `);
+    }
+
+    function chooseAge(age) {
+      addUser(age);
+      document.getElementById('ageOptions').style.display = 'none';
+      document.getElementById('offerBlock').classList.remove('hidden');
+      footerText.textContent = 'Please select from the options above';
+      bottom();
+    }
+
+    function chooseOffer(offer) {
+      addUser(offer);
+      document.getElementById('offerBlock').style.display = 'none';
+      document.getElementById('finalBlock').classList.remove('hidden');
+      footerText.textContent = 'Please wait...';
+      bottom();
+    }
+
+    function goNext() {
+      document.getElementById('warningPage').style.display = 'flex';
+    }
+
+    function closeWarning() {
+      document.getElementById('warningPage').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
